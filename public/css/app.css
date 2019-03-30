@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+html, body {
+    margin: 0;
+
+    font-family: 'Roboto', sans-serif;
+}
+
+.container {
+
+}
+
+.header {
+    padding: 20px 40px;
+
+    border-bottom: 1px solid rgb(240, 240, 240);
+}
+
+.header-icon {
+    color: #27ca6f;
+    font-size: 28px;
+}
+
+.header-auth {
+
+}
+
+.header-auth-avatar {
+    border-radius: 100%;
+}
+
+.content {
+    padding: 20px 40px;
+}
+
+/*
+ * Forms, inputs...
+*/
+
+.form-group {
+    
+}
+
+.form-input {
+
+}
+.form-input_invalid {
+
+}
+
+.form-label {
+
+}
+
+.form-feedback {
+
+}
+
+.form-button {
+
+}
