@@ -3,7 +3,6 @@
 ## To-Do
 
 - CSS: Finish messages
-- MessagesController: pagination
 - Switch to Vue
 
 
