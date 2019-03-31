@@ -20,16 +20,16 @@
     <div class="container">
 
         <div class="header">
-            <div class="header-icon">A</div>
+            <div class="header-logo">A</div>
 
             @auth
             <div class="header-auth">
-                <a class="dropdown-item" style="display: none;" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                <a style="text-decoration: none;" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <div class="header-auth-avatar" style="color: {{ Auth::user()->color }}; background: {{ Auth::user()->colorLight }}">{{ Auth::user()->letter }}</div>
+                </a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
-
-                <img src="{{ Auth::user()->avatar_url }}" alt="header-auth-avatar" class="header-auth-avatar">
             </div>
             @endauth
         </div>

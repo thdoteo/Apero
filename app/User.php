@@ -6,6 +6,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use \Mexitek\PHPColors\Color;
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -16,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'color'
     ];
 
     /**
@@ -36,4 +38,23 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $appends = ['colorLight', 'letter'];
+
+
+
+    public function getColorLightAttribute()
+    {
+        return '#' . (new Color($this->color))->lighten(34);
+    }
+
+    public function getLetterAttribute()
+    {
+        return $this->name[0];
+    }
+
+    public function messages()
+    {
+        return $this->hasMany('App\Message');
+    }
 }
