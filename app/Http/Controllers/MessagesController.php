@@ -20,9 +20,9 @@ class MessagesController extends Controller
 
     public function index()
     {
-        $messages = Message::orderBy('created_at','DESC')->simplePaginate($this->numberOfMessagesPerPage);
+        //$messages = Message::orderBy('created_at','DESC')->simplePaginate($this->numberOfMessagesPerPage);
 
-        return view('messages.index', compact('messages'));
+        return view('messages.index');
     }
 
     public function store(MessageRequest $message)
