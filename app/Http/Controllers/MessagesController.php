@@ -10,16 +10,17 @@ use Illuminate\Support\Facades\Auth;
 
 class MessagesController extends Controller
 {
-    private $numberOfMessagesPerPage = 10;
+    private $numberOfMessagesPerPage = 2;
 
     public function __construct()
     {
+        $this->authorizeResource(Message::class, 'message');
         $this->middleware('auth');
     }
 
     public function index()
     {
-        $messages = Message::latest()->paginate($this->numberOfMessagesPerPage);
+        $messages = Message::orderBy('created_at','DESC')->simplePaginate($this->numberOfMessagesPerPage);
 
         return view('messages.index', compact('messages'));
     }

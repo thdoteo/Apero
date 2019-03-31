@@ -90,21 +90,23 @@ html, body {
 
     margin: auto;
     padding: 100px 0 140px 0;
+
+    text-align: center;
 }
 
 .message {
-    display: block;
+    display: flex;
+    flex-wrap: wrap;
 
-    margin: 40px 0;
+    margin: 30px 0;
 }
-.message_own { text-align: right; }
+.message_own { flex-direction: row-reverse; }
 
 .message-avatar {
     display: inline-block;
-    width: 38px;
+    width: 38px!important;
     height: 38px;
 
-    margin-right: 20px;
     margin-bottom: 20px;
 
     text-align: center;
@@ -114,27 +116,44 @@ html, body {
 }
 
 .message-content {
-    display: inline-block;
+    max-width: 500px;
 
+    margin: 0 22px;
     padding: 16px 20px;
 
     color: white;
     line-height: 1.7;
     text-align: left;
+    word-break: break-all;
 
     background: rgb(245, 245, 245);
     border-radius: 8px;
 }
 
 .message-date {
-    margin-top: 10px;
+    align-self: center;
 
     color: rgb(180, 180, 180);
-    /*text-align: right;*/
     font-size: 14px;
+
+    opacity: 0;
+
+    transition: opacity 0.3s;
+}
+.message:hover .message-date {
+    opacity: 1;
 }
 
-.newmessage {
+.messages-title {
+    max-width: 400px;
+
+    margin: 100px auto;
+
+    color: rgb(150, 150, 150);
+    text-align: center;
+}
+
+.messages-new {
     position: fixed;
     bottom: 30px;
     left: 30px;
@@ -143,12 +162,12 @@ html, body {
 
     margin: auto;
 
-    box-shadow: 1px -1px 8px 2px rgba(0, 0, 0, 0.05);
-    /*border: 1px solid rgb(235, 235, 235);*/
+    /*box-shadow: 1px -1px 8px 2px rgba(0, 0, 0, 0.05);*/
+    border: 1px solid rgb(235, 235, 235);
     border-radius: 8px;
 }
 
-.newmessage-message {
+.messages-new-message {
     width: 100%;
 
     padding: 26px 28px;
