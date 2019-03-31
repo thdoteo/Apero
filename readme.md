@@ -1,5 +1,7 @@
 # Apero
 
+A simple messaging web app for a single conversation. 
+
 ## To-Do
 
 - CSS: Finish messages

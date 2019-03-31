@@ -19,10 +19,9 @@ class MessagesController extends Controller
 
     public function index()
     {
-        $users = User::all();
         $messages = Message::latest()->paginate($this->numberOfMessagesPerPage);
 
-        return view('messages.index', compact('messages', 'users'));
+        return view('messages.index', compact('messages'));
     }
 
     public function store(MessageRequest $message)
@@ -32,5 +31,23 @@ class MessagesController extends Controller
         return redirect()
             ->route('messages.index')
             ->with('success', 'Message created successfully.');
+    }
+
+    public function update(MessageRequest $message, int $id)
+    {
+        Message::findOrFail($id)->update($message->validated());
+
+        return redirect()
+            ->route('messages.index')
+            ->with('success', 'Message updated successfully.');
+    }
+
+    public function destroy(int $id)
+    {
+        Message::findOrFail($id)->delete();
+
+        return redirect()
+            ->route('messages.index')
+            ->with('success', 'Message deleted successfully.');
     }
 }
