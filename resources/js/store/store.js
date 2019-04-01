@@ -33,36 +33,29 @@ export default new Vuex.Store({
         count: 0
     },
     getters: {
-        user: function (state)
-        {
+        user: function (state) {
             return state.user
         },
-        messages: function (state)
-        {
+        messages: function (state) {
             return state.messages
         },
-        count: function (state)
-        {
+        count: function (state) {
             return state.count
         }
     },
     mutations: {
-        setUser: function (state, user)
-        {
+        setUser: function (state, user) {
             state.user = user
         },
-        addMessages: function (state, {messages, count})
-        {
+        addMessages: function (state, {messages, count}) {
             state.count = count
             state.messages = messages
         },
-        addMessage: function (state, {message})
-        {
+        addMessage: function (state, {message}) {
             state.count++
             state.messages.push(message)
         },
-        prependMessages: function (state, {messages})
-        {
+        prependMessages: function (state, {messages}) {
             state.messages = [...messages, ...state.messages]
         }
     },
