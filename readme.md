@@ -1,6 +1,17 @@
 # Apero
 
-A simple messaging web app for a single conversation. 
+![Screenshot](https://raw.githubusercontent.com/thdoteo/Apero/master/docs/screenshot.png)  
+
+A simple messaging web app for a single conversation.  
+
+Apero uses an API, built with PHP and the framework Laravel, and VueJS and web sockets for the front-end.
+
+## Features
+
+- User registration and authentication
+- Single conversation with a clean interface
+- Receive messages in real time
+- Old messages are loaded as you go upward in the conversation
 
 ## Usage
 
