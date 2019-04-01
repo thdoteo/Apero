@@ -3,13 +3,16 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-const get = async function (url) {
+const api = async function (url, options = {}) {
     let response = await fetch(url, {
         credentials: 'same-origin',
         headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
             'X-Requested-With': 'XMLHttpRequest',
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        }
+        },
+        ...options
     })
 
     if (response.ok)
@@ -18,8 +21,7 @@ const get = async function (url) {
     }
     else
     {
-        let error = await response.json()
-        throw new Error(error.message)
+        throw await response.json()
     }
 }
 
@@ -27,7 +29,8 @@ export default new Vuex.Store({
     strict: true,
     state: {
         user: null,
-        messages: {}
+        messages: [],
+        count: 0
     },
     getters: {
         user: function (state)
@@ -37,6 +40,10 @@ export default new Vuex.Store({
         messages: function (state)
         {
             return state.messages
+        },
+        count: function (state)
+        {
+            return state.count
         }
     },
     mutations: {
@@ -44,20 +51,42 @@ export default new Vuex.Store({
         {
             state.user = user
         },
-        addMessages: function (state, messages)
+        addMessages: function (state, {messages, count})
         {
-            let result = {}
-            messages.messages.forEach(function (message) {
-                result[message.id] = message
-            })
-            console.log(result)
-            state.messages = result
+            state.count = count
+            state.messages = messages
+        },
+        addMessage: function (state, {message})
+        {
+            state.count++
+            state.messages.push(message)
+        },
+        prependMessages: function (state, {messages})
+        {
+            state.messages = [...messages, ...state.messages]
         }
     },
     actions: {
         loadMessages: async function (context) {
-            let response = await get('/api/messages')
-            context.commit('addMessages', {messages: response.messages})
+            let response = await api('/api/messages')
+            context.commit('addMessages', {messages: response.messages, count: response.count})
+        },
+        loadPreviousMessages: async function (context) {
+            let message = context.getters.messages[0]
+            if (message)
+            {
+                let response = await api('/api/messages?before=' + message.created_at)
+                context.commit('prependMessages', {messages: response.messages})
+            }
+        },
+        sendMessage: async function (context, {content}) {
+            let response = await api('/api/messages', {
+                method: 'POST',
+                body: JSON.stringify({
+                    content: content
+                })
+            })
+            context.commit('addMessage', {message: response.message})
         }
     }
 })

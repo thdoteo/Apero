@@ -147,7 +147,20 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _MessageComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MessageComponent */ "./resources/js/components/MessageComponent.vue");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _MessageComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MessageComponent */ "./resources/js/components/MessageComponent.vue");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
 //
 //
 //
@@ -159,17 +172,164 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     user: Number
   },
+  data: function data() {
+    return {
+      content: '',
+      errors: {},
+      loading: false
+    };
+  },
   components: {
-    Message: _MessageComponent__WEBPACK_IMPORTED_MODULE_0__["default"]
+    Message: _MessageComponent__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   computed: {
     messages: function messages() {
       return this.$store.getters.messages;
+    },
+    count: function count() {
+      return this.$store.getters.count;
     }
   },
   mounted: function mounted() {
-    this.$store.dispatch('loadMessages');
+    this.loadMessages();
     this.$store.commit('setUser', this.user);
+  },
+  methods: {
+    onScroll: function () {
+      var _onScroll = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var _this = this;
+
+        var previousHeight;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!(window.scrollY === 0)) {
+                  _context.next = 9;
+                  break;
+                }
+
+                this.loading = true;
+                window.removeEventListener('scroll', this.onScroll);
+                previousHeight = this.$el.scrollHeight;
+                _context.next = 6;
+                return this.$store.dispatch('loadPreviousMessages');
+
+              case 6:
+                this.$nextTick(function () {
+                  window.scrollTo(0, _this.$el.scrollHeight - previousHeight);
+                });
+
+                if (this.messages.length < this.count) {
+                  window.addEventListener('scroll', this.onScroll);
+                }
+
+                this.loading = false;
+
+              case 9:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function onScroll() {
+        return _onScroll.apply(this, arguments);
+      }
+
+      return onScroll;
+    }(),
+    scrollBottom: function scrollBottom() {
+      var _this2 = this;
+
+      this.$nextTick(function () {
+        window.scrollTo(0, _this2.$el.scrollHeight);
+      });
+    },
+    loadMessages: function () {
+      var _loadMessages = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return this.$store.dispatch('loadMessages');
+
+              case 2:
+                this.scrollBottom();
+
+                if (this.messages.length < this.count) {
+                  window.addEventListener('scroll', this.onScroll);
+                }
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function loadMessages() {
+        return _loadMessages.apply(this, arguments);
+      }
+
+      return loadMessages;
+    }(),
+    sendMessage: function () {
+      var _sendMessage = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(e) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                this.errors = {};
+                this.loading = true;
+                _context3.prev = 2;
+                _context3.next = 5;
+                return this.$store.dispatch('sendMessage', {
+                  content: this.content
+                });
+
+              case 5:
+                this.content = '';
+                this.scrollBottom();
+                _context3.next = 12;
+                break;
+
+              case 9:
+                _context3.prev = 9;
+                _context3.t0 = _context3["catch"](2);
+
+                if (_context3.t0.errors) {
+                  this.errors = _context3.t0.errors;
+                } else {
+                  console.error(_context3.t0);
+                }
+
+              case 12:
+                this.loading = false;
+
+              case 13:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this, [[2, 9]]);
+      }));
+
+      function sendMessage(_x) {
+        return _sendMessage.apply(this, arguments);
+      }
+
+      return sendMessage;
+    }()
   }
 });
 
@@ -1434,13 +1594,53 @@ var render = function() {
   return _c(
     "div",
     { staticClass: "messages" },
-    _vm._l(_vm.messages, function(message) {
-      return _c("Message", {
-        key: message.id,
-        attrs: { message: message, user: _vm.user }
-      })
-    }),
-    1
+    [
+      _vm._l(_vm.messages, function(message) {
+        return _c("Message", {
+          key: message.id,
+          attrs: { message: message, user: _vm.user }
+        })
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "messages-new" }, [
+        _vm._v("\n        " + _vm._s(_vm.errors.content) + "\n        "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.content,
+              expression: "content"
+            }
+          ],
+          staticClass: "messages-new-message",
+          attrs: {
+            disabled: _vm.loading,
+            autocomplete: "off",
+            placeholder: "Say hello..."
+          },
+          domProps: { value: _vm.content },
+          on: {
+            keypress: function($event) {
+              if (
+                !$event.type.indexOf("key") &&
+                _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+              ) {
+                return null
+              }
+              return _vm.sendMessage($event)
+            },
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.content = $event.target.value
+            }
+          }
+        })
+      ])
+    ],
+    2
   )
 }
 var staticRenderFns = []
@@ -17397,6 +17597,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -17405,43 +17617,47 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__["default"]);
 
-var get =
+var api =
 /*#__PURE__*/
 function () {
   var _ref = _asyncToGenerator(
   /*#__PURE__*/
   _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(url) {
-    var response, error;
+    var options,
+        response,
+        _args = arguments;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _context.next = 2;
-            return fetch(url, {
+            options = _args.length > 1 && _args[1] !== undefined ? _args[1] : {};
+            _context.next = 3;
+            return fetch(url, _objectSpread({
               credentials: 'same-origin',
               headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
                 'X-Requested-With': 'XMLHttpRequest',
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
               }
-            });
+            }, options));
 
-          case 2:
+          case 3:
             response = _context.sent;
 
             if (!response.ok) {
-              _context.next = 7;
+              _context.next = 8;
               break;
             }
 
             return _context.abrupt("return", response.json());
 
-          case 7:
-            _context.next = 9;
+          case 8:
+            _context.next = 10;
             return response.json();
 
-          case 9:
-            error = _context.sent;
-            throw new Error(error.message);
+          case 10:
+            throw _context.sent;
 
           case 11:
           case "end":
@@ -17451,7 +17667,7 @@ function () {
     }, _callee);
   }));
 
-  return function get(_x) {
+  return function api(_x) {
     return _ref.apply(this, arguments);
   };
 }();
@@ -17460,7 +17676,8 @@ function () {
   strict: true,
   state: {
     user: null,
-    messages: {}
+    messages: [],
+    count: 0
   },
   getters: {
     user: function user(state) {
@@ -17468,19 +17685,29 @@ function () {
     },
     messages: function messages(state) {
       return state.messages;
+    },
+    count: function count(state) {
+      return state.count;
     }
   },
   mutations: {
     setUser: function setUser(state, user) {
       state.user = user;
     },
-    addMessages: function addMessages(state, messages) {
-      var result = {};
-      messages.messages.forEach(function (message) {
-        result[message.id] = message;
-      });
-      console.log(result);
-      state.messages = result;
+    addMessages: function addMessages(state, _ref2) {
+      var messages = _ref2.messages,
+          count = _ref2.count;
+      state.count = count;
+      state.messages = messages;
+    },
+    addMessage: function addMessage(state, _ref3) {
+      var message = _ref3.message;
+      state.count++;
+      state.messages.push(message);
+    },
+    prependMessages: function prependMessages(state, _ref4) {
+      var messages = _ref4.messages;
+      state.messages = [].concat(_toConsumableArray(messages), _toConsumableArray(state.messages));
     }
   },
   actions: {
@@ -17494,12 +17721,13 @@ function () {
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return get('/api/messages');
+                return api('/api/messages');
 
               case 2:
                 response = _context2.sent;
                 context.commit('addMessages', {
-                  messages: response.messages
+                  messages: response.messages,
+                  count: response.count
                 });
 
               case 4:
@@ -17515,6 +17743,83 @@ function () {
       }
 
       return loadMessages;
+    }(),
+    loadPreviousMessages: function () {
+      var _loadPreviousMessages = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(context) {
+        var message, response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                message = context.getters.messages[0];
+
+                if (!message) {
+                  _context3.next = 6;
+                  break;
+                }
+
+                _context3.next = 4;
+                return api('/api/messages?before=' + message.created_at);
+
+              case 4:
+                response = _context3.sent;
+                context.commit('prependMessages', {
+                  messages: response.messages
+                });
+
+              case 6:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }));
+
+      function loadPreviousMessages(_x3) {
+        return _loadPreviousMessages.apply(this, arguments);
+      }
+
+      return loadPreviousMessages;
+    }(),
+    sendMessage: function () {
+      var _sendMessage = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(context, _ref5) {
+        var content, response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                content = _ref5.content;
+                _context4.next = 3;
+                return api('/api/messages', {
+                  method: 'POST',
+                  body: JSON.stringify({
+                    content: content
+                  })
+                });
+
+              case 3:
+                response = _context4.sent;
+                context.commit('addMessage', {
+                  message: response.message
+                });
+
+              case 5:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }));
+
+      function sendMessage(_x4, _x5) {
+        return _sendMessage.apply(this, arguments);
+      }
+
+      return sendMessage;
     }()
   }
 }));
