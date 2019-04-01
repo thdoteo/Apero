@@ -8,8 +8,10 @@ class Message extends Model
 {
     protected $fillable = ['content', 'user_id'];
 
+
+
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User')->select(['id', 'name', 'color']);
     }
 }
