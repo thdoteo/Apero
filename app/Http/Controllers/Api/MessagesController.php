@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\NewMessage;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MessageRequest;
 use App\Message;
@@ -28,9 +29,11 @@ class MessagesController extends Controller
 
     public function store(MessageRequest $message)
     {
-        $result = Message::create($message->validated() + ['user_id' => $message->user()->id])->load('user');
+        $message = Message::create($message->validated() + ['user_id' => $message->user()->id])->load('user');
 
-        return ['message' => $result];
+        broadcast(new NewMessage($message));
+
+        return compact('message');
     }
 
 }

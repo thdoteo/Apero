@@ -30,11 +30,19 @@
             },
             count: function () {
                 return this.$store.getters.count
+            },
+            lastMessage: function() {
+                return this.messages[this.messages.length - 1]
+            }
+        },
+        watch: {
+            lastMessage: function () {
+                this.scrollBottom()
             }
         },
         mounted () {
             this.loadMessages()
-            this.$store.commit('setUser', this.user)
+            this.$store.dispatch('setUser', this.user)
         },
         methods: {
             async onScroll () {
@@ -61,7 +69,6 @@
             },
             async loadMessages() {
                 await this.$store.dispatch('loadMessages')
-                this.scrollBottom()
                 if (this.messages.length < this.count)
                 {
                     window.addEventListener('scroll', this.onScroll)
@@ -73,7 +80,6 @@
                 try {
                     await this.$store.dispatch('sendMessage', {content: this.content})
                     this.content = ''
-                    this.scrollBottom()
                 } catch (response)
                 {
                     if (response.errors) {
