@@ -45,3 +45,9 @@ To run Apero, follow these steps:
 - Create profile for users
 - Implement multiple conversations
 - Backend for users and conversations
+
+## Objective
+
+In the long run I would like apero to be focused on privacy and security.
+It would use its own communication protocol and encrypt messages.
+Question: facial recognition authentication would be relevant to implement?
