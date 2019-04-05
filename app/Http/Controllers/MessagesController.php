@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewMessage;
 use App\Http\Requests\MessageRequest;
 use App\Message;
-use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class MessagesController extends Controller
 {
-    private $numberOfMessagesPerPage = 2;
 
     public function __construct()
     {
@@ -18,37 +16,30 @@ class MessagesController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        //$messages = Message::orderBy('created_at','DESC')->simplePaginate($this->numberOfMessagesPerPage);
+        $query = Message::with('user')->orderBy('created_at','DESC');
 
-        return view('messages.index');
+        // Handle requests for previous messages
+        if ($request->get('before'))
+        {
+            $query->where('created_at', '<', $request->get('before'));
+        }
+
+        $messages = array_reverse($query->limit(10)->get()->toArray());
+        $count = $query->count();
+
+        return compact('messages', 'count');
     }
 
     public function store(MessageRequest $message)
     {
-        Message::create($message->validated() + ['user_id' => Auth::user()->id]);
+        $message = Message::create($message->validated() + ['user_id' => $message->user()->id])->load('user');
 
-        return redirect()
-            ->route('messages.index')
-            ->with('success', 'Message created successfully.');
+        // Send a NewMessage event to inform clients through web sockets
+        broadcast(new NewMessage($message));
+
+        return compact('message');
     }
 
-    public function update(MessageRequest $message, int $id)
-    {
-        Message::findOrFail($id)->update($message->validated());
-
-        return redirect()
-            ->route('messages.index')
-            ->with('success', 'Message updated successfully.');
-    }
-
-    public function destroy(int $id)
-    {
-        Message::findOrFail($id)->delete();
-
-        return redirect()
-            ->route('messages.index')
-            ->with('success', 'Message deleted successfully.');
-    }
 }

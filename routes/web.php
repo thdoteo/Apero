@@ -13,5 +13,6 @@
 
 Auth::routes();
 
-Route::get('/', 'MessagesController@index');
-Route::resource('messages', 'MessagesController');
+Route::get('/', function () {
+    return view('messages.index');
+});

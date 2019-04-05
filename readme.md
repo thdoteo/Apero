@@ -1,6 +1,6 @@
 # Apero
 
-![Screenshot](https://raw.githubusercontent.com/thdoteo/Apero/master/docs/screenshot.png)  
+![Screenshot](https://raw.githubusercontent.com/thdoteo/apero/master/docs/screenshot.png)  
 
 A simple messaging web app for a single conversation.  
 
@@ -33,11 +33,12 @@ To run Apero, follow these steps:
 ### Soon
 
 - Messages: seen
-- Messages: smileys, attachments, markdown, multi lines
+- Messages: expire time, smileys, attachments, markdown, multi lines
 - Messages: separator depending on date, group messages per sender
 - Messages: edit, delete
 - Messages: audio messages
-- Messages: expire time
+- Messages: notifications, sounds, animations
+- Deploy with Ansible
 
 ### Significant features
 

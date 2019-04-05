@@ -18,6 +18,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::get('/messages', 'Api\MessagesController@index');
-    Route::post('/messages', 'Api\MessagesController@store');
+    Route::get('/messages', 'MessagesController@index');
+    Route::post('/messages', 'MessagesController@store');
 });
